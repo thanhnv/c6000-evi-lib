@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configurations XML_version="1.2" id="configurations_0">
+    <configuration XML_version="1.2" id="configuration_0">
+        <instance XML_version="1.2" desc="Texas Instruments XDS100v2 USB Emulator" href="connections/TIXDS100v2_Connection.xml" id="Texas Instruments XDS100v2 USB Emulator" xml="TIXDS100v2_Connection.xml" xmlpath="connections"/>
+        <connection XML_version="1.2" id="Texas Instruments XDS100v2 USB Emulator">
+            <instance XML_version="1.2" href="drivers/tixds100v2icepick_c.xml" id="drivers" xml="tixds100v2icepick_c.xml" xmlpath="drivers"/>
+            <instance XML_version="1.2" href="drivers/tixds100v2c674x.xml" id="drivers" xml="tixds100v2c674x.xml" xmlpath="drivers"/>
+            <platform XML_version="1.2" id="platform_0">
+                <instance XML_version="1.2" desc="TMS320C6745" href="devices/c6745.xml" id="TMS320C6745" xml="c6745.xml" xmlpath="devices"/>
+            <device HW_revision="1" XML_version="1.2" description="C674x Floating Point DSP" id="TMS320C6745" partnum="TMS320C6745" simulation="no">
+                    <router HW_revision="1.0" XML_version="1.2" description="ICEPick_C Router" id="IcePick_C_0" isa="ICEPICK_C">
+                        <subpath id="subpath_0">
+                            <cpu HW_revision="" XML_version="1.2" description="" deviceSim="false" id="C674X_0" isa="TMS320C674X">
+                                <property Type="filepathfield" Value="..\GEL\evmc6747_dsp.gel" id="GEL File"/>
+                            </cpu>
+                        </subpath>
+                    </router>
+                </device>
+            </platform>
+        </connection>
+    </configuration>
+</configurations>
