@@ -29,10 +29,9 @@ int main()
 	//uart1_sendchar(0xff);
 	unsigned int x=0;
 	printf("hello world\n");
-
 	while(1){
-		DBG("value %d, 0x%x\n",++x,x);
-		sw_sleep(10000000);
+		DBG("value %d, 0x%x, %f\n",++x,x,(float)x+0.123456,x,x);
+		sw_sleep(100000);
 	}
 
 	//while(1);

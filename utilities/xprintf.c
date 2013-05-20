@@ -27,8 +27,6 @@ void xputc (unsigned char c)
 	}
 }
 
-
-
 /*----------------------------------------------*/
 /* Put a null-terminated string                 */
 /*----------------------------------------------*/
@@ -40,6 +38,7 @@ void xputs (					/* Put a string to the default device */
 	while (*str)
 		xputc(*str++);
 }
+
 
 
 void xfputs (					/* Put a string to the specified device */
@@ -84,9 +83,10 @@ void xvprintf (
 {
 	unsigned int r, i, j, w, f;
 	unsigned long v;
-	unsigned char s[16], c, d, *p;
-
-	//uart1_sendchar(0xdd);
+	unsigned char s[32], c, d, *p;
+	float fv=0;
+	unsigned long intdec=0;
+	char is_float=0;
 	for (;;) {
 		c = *fmt++;					/* Get a char */
 		if (!c) break;				/* End of format? */
@@ -112,7 +112,7 @@ void xvprintf (
 		if (d >= 'a') d -= 0x20;
 		switch (d) {				/* Type is... */
 		case 'S' :					/* String */
-			p = va_arg(arp, char*);
+			p = va_arg(arp, unsigned char*);
 			for (j = 0; p[j]; j++) ;
 			while (!(f & 2) && j++ < w) xputc(' ');
 			xputs(p);
@@ -129,22 +129,52 @@ void xvprintf (
 			r = 10; break;
 		case 'X' :					/* Hexdecimal */
 			r = 16; break;
+		case 'F':
+			is_float=1;
+			r=10;
+			break;
 		default:					/* Unknown type (passthrough) */
 			xputc(c); continue;
 		}
 
 		/* Get an argument and put it in numeral */
-		v = (f & 4) ? va_arg(arp, long) : ((d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int));
+		if(d!='F'){
+			v = (f & 4) ? va_arg(arp, long) : ((d == 'D') ? (long)va_arg(arp, int) : (long)va_arg(arp, unsigned int));
+		}else{
+			fv = (f & 4) ? (float)va_arg(arp, double) : ((d == 'F') ? (float)va_arg(arp, double) : (float)va_arg(arp, double));
+			intdec = (unsigned long)( fv);
+			v= (unsigned long ) (fv * 1000000 - intdec * 1000000);
+		}
 		if (d == 'D' && (v & 0x80000000)) {
 			v = 0 - v;
 			f |= 8;
+		}else if (d == 'F' && (intdec & 0x80000000)) {
+			intdec = 0 - intdec;
+			v=0-v;
+			f |= 8;
+		}
+		if(is_float){
+			for(i=0;i<8 ;i++){
+				if(v%10 ==0 ){
+					v=v/10;
+				} else {
+					break;
+				}
+			}
 		}
 		i = 0;
+__append_char:
 		do {
-			d = (char)(v % r); v /= r;
+			d = (unsigned char)(v % r); v /= r;
 			if (d > 9) d += (c == 'x') ? 0x27 : 0x07;
 			s[i++] = d + '0';
 		} while (v && i < sizeof(s));
+		if(is_float){
+			s[i++]='.';
+			is_float=0;
+			v=intdec;
+			goto __append_char;
+		}
 		if (f & 8) s[i++] = '-';
 		j = i; d = (f & 1) ? '0' : ' ';
 		while (!(f & 2) && j++ < w) xputc(d);
@@ -381,6 +411,12 @@ int xatoi (			/* 0:Failed, 1:Successful */
 	return 1;
 }
 
+#ifdef RUN_APP
+#include "debug.h"
+#include <stdio.h>
+	int main(int argc,char ** argv){
+		xfprintf(putchar,"hello world %d %d %d\n",sizeof(double),sizeof(unsigned long long int),sizeof(float));
+		xfprintf(putchar,"int: %2d, hex: 0x%x,char: %c ,float: %f\n",1024,1024,'b',-10.12345678f);
+	}
+#endif
 #endif /* _USE_XFUNC_IN */
-
-

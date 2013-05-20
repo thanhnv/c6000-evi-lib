@@ -13,7 +13,8 @@
 #ifdef USE_DEBUG
 #include "xprintf.h"
 #include "../include/uart.h"
-#define DBG(x...) xfprintf(uart1_sendchar,x);
+//#define DBG(x...) xfprintf(uart1_sendchar,x);
+#define DBG(x...) xfprintf(putchar,x);
 #define FDBG(x...) {DBG("\033[1;31m[%s:%s:%d]\033[0m ",__FILE__, __FUNCTION__,__LINE__); DBG(x);DBG("\r\n");}
 #else
 #define DBG(x...)

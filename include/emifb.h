@@ -8,12 +8,12 @@
 #ifndef EMIFB_H_
 #define EMIFB_H_
 #include "types.h"
-#define EMIFB_BASE              0xB0000000 /**<Begin of EMIFB configure registers*/
-#define EMIFB_SDSTAT            *(unsigned int*)(EMIFB_BASE + 0x04)    /**<SDRAM Status Register*/
-#define EMIFB_SDCFG             *(unsigned int*)(EMIFB_BASE + 0x08)    /**<SDRAM Bank Config Register*/
-#define EMIFB_SDREF             *(unsigned int*)(EMIFB_BASE + 0x0C)    /**<SDRAM Refresh Control Register*/
-#define EMIFB_SDTIM1            *(unsigned int*)(EMIFB_BASE + 0x10)    /**<SDRAM Timing Register*/
-#define EMIFB_SDTIM2            *(unsigned int*)(EMIFB_BASE + 0x14)    /**<SDRAM Timing Register*/
+#define EMIFB_BASE              0xB0000000 /*Begin of EMIFB configure registers*/
+#define EMIFB_SDSTAT            *(unsigned int*)(EMIFB_BASE + 0x04)    /*SDRAM Status Register*/
+#define EMIFB_SDCFG             *(unsigned int*)(EMIFB_BASE + 0x08)    /*SDRAM Bank Config Register*/
+#define EMIFB_SDREF             *(unsigned int*)(EMIFB_BASE + 0x0C)    /*SDRAM Refresh Control Register*/
+#define EMIFB_SDTIM1            *(unsigned int*)(EMIFB_BASE + 0x10)    /*SDRAM Timing Register*/
+#define EMIFB_SDTIM2            *(unsigned int*)(EMIFB_BASE + 0x14)    /*SDRAM Timing Register*/
 
 enum _configure_sdram_st{
 	CONFIG_SDRAM_FAIL=0, /**<Configure failed, SDRAM can not be used.*/
