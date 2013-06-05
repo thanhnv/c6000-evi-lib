@@ -9,7 +9,8 @@
 
 #include <include/emifb.h>
 #include <include/commands.h>
-
+#include <include/sysconfig.h>
+#include <include/psc.h>
 /**
 *@brief Setup/Initial external SDRAM.
 *@return Status of configuration.
@@ -17,12 +18,25 @@
 */
 Int32 config_sdram()
 {
+    KICK0R = 0x83e70b13;  // Kick0 register + data (unlock)
+    KICK1R = 0x95a4f1e0;  // Kick1 register + data (unlock)
+
+    PINMUX0  = 0x11112188;  // EMIFB, Check EMU0/RTCK
+    PINMUX1  = 0x11111111;  // EMIFB
+    PINMUX2  = 0x11111111;  // EMIFB
+    PINMUX3  = 0x11111111;  // EMIFB
+    PINMUX4  = 0x11111111;  // EMIFB
+    PINMUX5  = 0x11111111;  // EMIFB
+    PINMUX6  = 0x11111111;  // EMIFB
+    PINMUX7  = 0x11111111;  // EMIFB, SPI0
+
     EMIFB_SDCFG = 0         // SDRAM Bank Config Register
         |( 1 << 15)         // Unlock timing registers
+//        |( 1 << 14)         // 16Bits
         |( 2 << 9 )         // CAS latency is 2
         |( 2 << 4 )         // 4 bank SDRAM devices
         |( 1 << 0 );        // 512-word pages requiring 9 column address bits
-    //FMK();
+
     EMIFB_SDREF = 0         // SDRAM Refresh Control Register
         |( 0 << 31)         // Low power mode disabled
         |( 0 << 30)         // MCLK stoping disabled
@@ -50,10 +64,10 @@ Int32 config_sdram()
     EMIFB_SDCFG = 0         // SDRAM Bank Config Register
         |( 1 << 16)
         |( 0 << 15)         // Unlock timing registers
+        |( 1 << 14)         // Unlock timing registers
         |( 2 << 9 )         // CAS latency is 2
         |( 2 << 4 )         // 4 bank SDRAM devices
         |( 1 << 0 );        // 512-word pages requiring 9 column address bits
-
 	return 1;
 }
 /**
@@ -62,6 +76,7 @@ Int32 config_sdram()
 */
 Int32 enable_sdram()
 {
+	PSC1_lPSC_enable(0,PSC_EMIFB);
 	return 1;
 }
 
@@ -71,6 +86,19 @@ Int32 enable_sdram()
 */
 Int32 disable_sdram()
 {
+    KICK0R = 0x83e70b13;  // Kick0 register + data (unlock)
+    KICK1R = 0x95a4f1e0;  // Kick1 register + data (unlock)
+
+    PINMUX0  = 0x00000000;  // EMIFB, Check EMU0/RTCK
+    PINMUX1  = 0x00000000;  // EMIFB
+    PINMUX2  = 0x00000000;  // EMIFB
+    PINMUX3  = 0x00000000;  // EMIFB
+    PINMUX4  = 0x00000000;  // EMIFB
+    PINMUX5  = 0x00000000;  // EMIFB
+    PINMUX6  = 0x00000000;  // EMIFB
+    PINMUX7  = 0x00000000;  // EMIFB, SPI0
+
+	PSC1_lPSC_disable(0,PSC_EMIFB);
 	return 1;
 }
 
@@ -80,6 +108,7 @@ Int32 disable_sdram()
 */
 Int32 power_up_sdram()
 {
+	PSC1_lPSC_enable(0,PSC_EMIFB);
 	return 1;
 }
 
@@ -89,6 +118,56 @@ Int32 power_up_sdram()
 */
 Int32 power_down_sdram()
 {
+	PSC1_lPSC_disable(0,PSC_EMIFB);
 	return 1;
 }
 
+#define SDRAM_HEAP 4
+#if (SDRAM_HEAP == 1)
+typedef unsigned char SDRAM_DATA_TYPE;
+#define VALUE_PATTERN 0xFF
+#elif (SDRAM_HEAP == 2)
+typedef unsigned short SDRAM_DATA_TYPE;
+#define VALUE_PATTERN 0xFFFF
+#elif (SDRAM_HEAP == 4)
+typedef unsigned int SDRAM_DATA_TYPE;
+#define VALUE_PATTERN 0xFFFFFFFF
+#else
+#undef SDRAM_HEAP
+#define SDRAM_HEAP 4
+typedef unsigned int SDRAM_DATA_TYPE;
+#define VALUE_PATTERN 0xFFFFFFFF
+#endif
+
+#include <stdio.h>
+#include <string.h>
+#include "utilities/debug.h"
+int example_sdram()
+{
+	enable_sdram();
+	config_sdram();
+
+	unsigned int base_addr = 0xC0000000;
+	unsigned int len=0xFF,i=0,j=0;
+	SDRAM_DATA_TYPE * position = (SDRAM_DATA_TYPE*)base_addr;
+	SDRAM_DATA_TYPE r,w;
+	memset((void*)position,0xFF,64*1024*1024);
+	//return 0;
+	while(i < (64 *1024 * 1024 /(0x100 ))){
+		//position
+		DBG("next page %d\n",i);
+		for(j=0;j<(0x100 / SDRAM_HEAP);j++){
+			//*position=VALUE_PATTERN;
+			//sw_sleep(100);
+			r=(*position);
+			if( r== VALUE_PATTERN){
+				//printf("0x%x  ==> 0x%x\n",position,(*position));
+			}else{
+				DBG("FAIL 0x%x  ==> 0x%x\n",position,r);
+			}
+			position++;
+		}
+		i++;
+	}
+	printf("Finish\n");
+}

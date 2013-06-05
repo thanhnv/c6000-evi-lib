@@ -98,7 +98,7 @@ void uart1_sendchar(Uint8 x)
 	if(!UART1_run) return;
 	UART_1_THR = (Uint32)x;
 	while(( UART_1_LSR & UART_LSR_TEMT_MASK) == 0);
-	sw_sleep(10000);
+	sw_sleep(1000);
 }
 
 void uart2_sendchar(Uint8 x)

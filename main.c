@@ -15,24 +15,35 @@
 #include "include/emifb.h"
 #include "include/uart.h"
 #include "utilities/debug.h"
-
+#include <stdlib.h>
 void sw_sleep(Uint32 value)
 {
 	while(value--);
 }
 
-
+int example_sdram();
 int main()
 {
-	setup_pll(25);
-	uart_init(UART_1,115200);
-	//uart1_sendchar(0xff);
+	setup_pll(20);
+	uart_init(UART_1,57600);
+#if 0
+	unsigned char * mm = malloc(100);
+	if(mm){
+		printf("memory allocate %p\n",mm);
+		free(mm);
+	}
+
+	mm = malloc(100);
+	if(mm){
+		printf("memory allocate %p\n",mm);
+	}
 	unsigned int x=0;
 	printf("hello world\n");
 	while(1){
 		DBG("value %d, 0x%x, %f\n",++x,x,(float)x+0.123456,x,x);
 		sw_sleep(100000);
 	}
-
-	//while(1);
+#endif
+	example_sdram();
+	while(1);
 }

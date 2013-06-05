@@ -6,7 +6,7 @@
  * @see http://www.embeddedvietnam.com
  */
 
-//
+
 #include <include/pllc.h>
 #include <include/sysconfig.h>
 #include <include/systemConfigurations.h>
@@ -15,10 +15,10 @@ Int32 setup_pll(Uint32 multi)
     int i = 0;
 
     /* DSP at 300MHz, EMIFs at 133MHz */
-    //unsigned int DIV45_EN = 1;
+    unsigned int DIV45_EN = 1;
     unsigned int CLKMODE = 0;
     if(multi * CRYSTAL_FREQ > MAX_PLL_FREQ){
-    	multi=MAX_PLL_FREQ/CRYSTAL_FREQ;
+    	//multi=MAX_PLL_FREQ/CRYSTAL_FREQ;
     }
     unsigned int PLLM = multi;
     DSPFreq=CRYSTAL_FREQ*multi/POST_PLL_DIVIDER;
