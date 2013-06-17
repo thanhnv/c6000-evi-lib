@@ -21,7 +21,7 @@ Int32 config_sdram()
     KICK0R = 0x83e70b13;  // Kick0 register + data (unlock)
     KICK1R = 0x95a4f1e0;  // Kick1 register + data (unlock)
 
-    PINMUX0  = 0x11112188;  // EMIFB, Check EMU0/RTCK
+    PINMUX0  = 0x11111188;  // EMIFB, Check EMU0/RTCK
     PINMUX1  = 0x11111111;  // EMIFB
     PINMUX2  = 0x11111111;  // EMIFB
     PINMUX3  = 0x11111111;  // EMIFB
@@ -32,10 +32,10 @@ Int32 config_sdram()
 
     EMIFB_SDCFG = 0         // SDRAM Bank Config Register
         |( 1 << 15)         // Unlock timing registers
-//        |( 1 << 14)         // 16Bits
-        |( 2 << 9 )         // CAS latency is 2
+        |( 1 << 14)         // 16Bits
+        |( 2 << 9 )         // CAS latency is 3
         |( 2 << 4 )         // 4 bank SDRAM devices
-        |( 1 << 0 );        // 512-word pages requiring 9 column address bits
+        |( 2 << 0 );        // 1024-word pages requiring 10 column address bits
 
     EMIFB_SDREF = 0         // SDRAM Refresh Control Register
         |( 0 << 31)         // Low power mode disabled
@@ -52,7 +52,7 @@ Int32 config_sdram()
         |( 8 <<  6 )        // (67.5ns / 7.5ns) - 1 = TRC
         |( 2 <<  3 );       // *(((4 * 14ns) + (2 * 7.5ns)) / (4 * 7.5ns)) -1. = TRRD
                             // but it says to use this formula if 8 banks but only 4 are used here.
-                            // and SDCFG1 register only suports upto 4 banks.
+                            // and SDCFG1 register only supports upto 4 banks.
 
     EMIFB_SDTIM2 = 0        // SDRAM Timing Register 2
         |( 14<< 27)         // not sure how they got this number. the datasheet says value should be
@@ -65,9 +65,9 @@ Int32 config_sdram()
         |( 1 << 16)
         |( 0 << 15)         // Unlock timing registers
         |( 1 << 14)         // Unlock timing registers
-        |( 2 << 9 )         // CAS latency is 2
+        |( 2 << 9 )         // CAS latency is 3
         |( 2 << 4 )         // 4 bank SDRAM devices
-        |( 1 << 0 );        // 512-word pages requiring 9 column address bits
+        |( 2 << 0 );        // 1024-word pages requiring 10 column address bits
 	return 1;
 }
 /**
@@ -131,7 +131,7 @@ typedef unsigned short SDRAM_DATA_TYPE;
 #define VALUE_PATTERN 0xFFFF
 #elif (SDRAM_HEAP == 4)
 typedef unsigned int SDRAM_DATA_TYPE;
-#define VALUE_PATTERN 0xFFFFFFFF
+#define VALUE_PATTERN 0xAAAAAAAA
 #else
 #undef SDRAM_HEAP
 #define SDRAM_HEAP 4
@@ -148,26 +148,38 @@ int example_sdram()
 	config_sdram();
 
 	unsigned int base_addr = 0xC0000000;
-	unsigned int len=0xFF,i=0,j=0;
-	SDRAM_DATA_TYPE * position = (SDRAM_DATA_TYPE*)base_addr;
-	SDRAM_DATA_TYPE r,w;
-	memset((void*)position,0xFF,64*1024*1024);
-	//return 0;
-	while(i < (64 *1024 * 1024 /(0x100 ))){
-		//position
-		DBG("next page %d\n",i);
-		for(j=0;j<(0x100 / SDRAM_HEAP);j++){
-			//*position=VALUE_PATTERN;
-			//sw_sleep(100);
-			r=(*position);
-			if( r== VALUE_PATTERN){
-				//printf("0x%x  ==> 0x%x\n",position,(*position));
-			}else{
-				DBG("FAIL 0x%x  ==> 0x%x\n",position,r);
-			}
-			position++;
-		}
-		i++;
+	unsigned int i=0;
+	volatile SDRAM_DATA_TYPE * position = (SDRAM_DATA_TYPE*)base_addr;
+	volatile SDRAM_DATA_TYPE r,w;
+	while(1){
+		memset((void*)position,0xAA,32*1024*1024);
+		DBG("W\n");
+		memcpy((void*)((unsigned int)position+32*1024*1024),(void*)position,32*1024*1024);
+		DBG("C\n");
 	}
-	printf("Finish\n");
+	//return 0;
+	__START:
+	i=0;
+	position=(SDRAM_DATA_TYPE*)base_addr;
+	while(i < (64 *1024 * 1024 )){
+		//position
+		//DBG("next page %d\n",i);
+		//for(j=0;j<(0x100 / SDRAM_HEAP);j++){
+#if 1
+			*position=i/4;
+			//sw_sleep(10);
+			r=(*position);
+//			if( r==i/4){
+//				//printf("0x%x  ==> 0x%x\n",position,(*position));
+//			}else{
+//				DBG("Fail 0x%x  ==> 0x%X\n",position,r);
+//			}
+			position++;
+		//}
+			i+=4;
+#endif
+
+	}
+	DBG("Finish: %d; 0x%X\n",i,position);
+	goto __START;
 }
