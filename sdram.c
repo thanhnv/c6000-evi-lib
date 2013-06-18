@@ -162,20 +162,11 @@ int example_sdram()
 	i=0;
 	position=(SDRAM_DATA_TYPE*)base_addr;
 	while(i < (64 *1024 * 1024 )){
-		//position
-		//DBG("next page %d\n",i);
-		//for(j=0;j<(0x100 / SDRAM_HEAP);j++){
 #if 1
 			*position=i/4;
 			//sw_sleep(10);
 			r=(*position);
-//			if( r==i/4){
-//				//printf("0x%x  ==> 0x%x\n",position,(*position));
-//			}else{
-//				DBG("Fail 0x%x  ==> 0x%X\n",position,r);
-//			}
 			position++;
-		//}
 			i+=4;
 #endif
 
