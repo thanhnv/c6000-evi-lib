@@ -40,6 +40,36 @@
 #define TIMER_0_CMP6					*(unsigned int)(TMR_0_REGS+0x078u)
 #define TIMER_0_CMP7					*(unsigned int)(TMR_0_REGS+0x07Cu)
 
+#define TIMER_1_REVID					*(unsigned int)(TMR_1_REGS+0x000u)
+#define TIMER_1_EMUMGT					*(unsigned int)(TMR_1_REGS+0x004u)
+#define TIMER_1_GPINTGPEN				*(unsigned int)(TMR_1_REGS+0x008u)
+#define TIMER_1_GPDATGPDIR				*(unsigned int)(TMR_1_REGS+0x00Cu)
+#define TIMER_1_TIM12					*(unsigned int)(TMR_1_REGS+0x010u)
+#define TIMER_1_TIM34					*(unsigned int)(TMR_1_REGS+0x014u)
+#define TIMER_1_PRD12					*(unsigned int)(TMR_1_REGS+0x018u)
+#define TIMER_1_PRD34					*(unsigned int)(TMR_1_REGS+0x01Cu)
+#define TIMER_1_TCR						*(unsigned int)(TMR_1_REGS+0x020u)
+#define TIMER_1_TGCR					*(unsigned int)(TMR_1_REGS+0x024u)
+#define TIMER_1_WDTCR					*(unsigned int)(TMR_1_REGS+0x028u)
+#define TIMER_1_REL12					*(unsigned int)(TMR_1_REGS+0x034u)
+#define TIMER_1_REL34					*(unsigned int)(TMR_1_REGS+0x038u)
+#define TIMER_1_CAP12					*(unsigned int)(TMR_1_REGS+0x03Cu)
+#define TIMER_1_CAP34					*(unsigned int)(TMR_1_REGS+0x040u)
+#define TIMER_1_INTCTLSTAT				*(unsigned int)(TMR_1_REGS+0x044u)
+#define TIMER_1_CMP0					*(unsigned int)(TMR_1_REGS+0x060u)
+#define TIMER_1_CMP1					*(unsigned int)(TMR_1_REGS+0x064u)
+#define TIMER_1_CMP2					*(unsigned int)(TMR_1_REGS+0x068u)
+#define TIMER_1_CMP3					*(unsigned int)(TMR_1_REGS+0x06Cu)
+#define TIMER_1_CMP4					*(unsigned int)(TMR_1_REGS+0x070u)
+#define TIMER_1_CMP5					*(unsigned int)(TMR_1_REGS+0x074u)
+#define TIMER_1_CMP6					*(unsigned int)(TMR_1_REGS+0x078u)
+#define TIMER_1_CMP7					*(unsigned int)(TMR_1_REGS+0x07Cu)
+
+typedef struct Timer_t{
+	 Int32 (*callback)(void * data);
+	 Uint8 id;
+	 Uint8 mode;
+}Timer_t;
 /*
 * Define some macros command
 */

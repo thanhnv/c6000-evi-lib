@@ -1,5 +1,5 @@
 /*
- * memories.h
+ * interrupt.h
  *
  *  Created on: May 7, 2013
  *      Author: NGUYEN
@@ -8,42 +8,57 @@
 #ifndef __INTERRUPT_H
 #define __INTERRUPT_H
 
-/**************************************************************************\
-* Register Overlay Structure
-\**************************************************************************/
-typedef struct  {
-    volatile Uint32 EVTFLAG[4];
-    volatile Uint8 RSVD0[16];
-    volatile Uint32 EVTSET[4];
-    volatile Uint8 RSVD1[16];
-    volatile Uint32 EVTCLR[4];
-    volatile Uint8 RSVD2[48];
-    volatile Uint32 EVTMASK[4];
-    volatile Uint8 RSVD3[16];
-    volatile Uint32 MEVTFLAG[4];
-    volatile Uint8 RSVD4[16];
-    volatile Uint32 EXPMASK[4];
-    volatile Uint8 RSVD5[16];
-    volatile Uint32 MEXPFLAG[4];
-    volatile Uint8 RSVD6[20];
-    volatile Uint32 INTMUX1;
-    volatile Uint32 INTMUX2;
-    volatile Uint32 INTMUX3;
-    volatile Uint8 RSVD7[48];
-    volatile Uint32 AEGMUX0;
-    volatile Uint32 AEGMUX1;
-    volatile Uint8 RSVD8[56];
-    volatile Uint32 INTXSTAT;
-    volatile Uint32 INTXCLR;
-    volatile Uint32 INTDMASK;
-    volatile Uint8 RSVD9[52];
-    volatile Uint32 EVTASRT;
-} IntcRegs;
 
-/**************************************************************************\
-* Overlay structure typedef definition
-\**************************************************************************/
-typedef volatile IntcRegs         *IntcRegsOvly;
+#define INTC_BASE_ADDR (0x01800000u)
+
+#define INTC_EVTFLAG0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0000u)
+#define INTC_EVTFLAG1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0004u)
+#define INTC_EVTFLAG2 			*(unsigned int*)(INTC_BASE_ADDR + 0x0008u)
+#define INTC_EVTFLAG3			*(unsigned int*)(INTC_BASE_ADDR + 0x000Cu)
+
+#define INTC_EVTSET0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0020u)
+#define INTC_EVTSET1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0024u)
+#define INTC_EVTSET2 			*(unsigned int*)(INTC_BASE_ADDR + 0x0028u)
+#define INTC_EVTSET3 			*(unsigned int*)(INTC_BASE_ADDR + 0x002Cu)
+
+#define INTC_EVTCLR0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0040u)
+#define INTC_EVTCLR1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0044u)
+#define INTC_EVTCLR2 			*(unsigned int*)(INTC_BASE_ADDR + 0x0048u)
+#define INTC_EVTCLR3 			*(unsigned int*)(INTC_BASE_ADDR + 0x004Cu)
+
+#define INTC_EVTMASK0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0080u)
+#define INTC_EVTMASK1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0084u)
+#define INTC_EVTMASK2 			*(unsigned int*)(INTC_BASE_ADDR + 0x0088u)
+#define INTC_EVTMASK3 			*(unsigned int*)(INTC_BASE_ADDR + 0x008Cu)
+
+#define INTC_MEVTFLAG0 			*(unsigned int*)(INTC_BASE_ADDR + 0x00A0u)
+#define INTC_MEVTFLAG1 			*(unsigned int*)(INTC_BASE_ADDR + 0x00A4u)
+#define INTC_MEVTFLAG2 			*(unsigned int*)(INTC_BASE_ADDR + 0x00A8u)
+#define INTC_MEVTFLAG3 			*(unsigned int*)(INTC_BASE_ADDR + 0x00ACu)
+
+#define INTC_EXPMASK0 			*(unsigned int*)(INTC_BASE_ADDR + 0x00C0u)
+#define INTC_EXPMASK1 			*(unsigned int*)(INTC_BASE_ADDR + 0x00C4u)
+#define INTC_EXPMASK2 			*(unsigned int*)(INTC_BASE_ADDR + 0x00C8u)
+#define INTC_EXPMASK3 			*(unsigned int*)(INTC_BASE_ADDR + 0x00CCu)
+
+#define INTC_MEXPFLAG0 			*(unsigned int*)(INTC_BASE_ADDR + 0x00E0u)
+#define INTC_MEXPFLAG1 			*(unsigned int*)(INTC_BASE_ADDR + 0x00E4u)
+#define INTC_MEXPFLAG2 			*(unsigned int*)(INTC_BASE_ADDR + 0x00E8u)
+#define INTC_MEXPFLAG3 			*(unsigned int*)(INTC_BASE_ADDR + 0x00ECu)
+
+#define INTC_INTMUX1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0104u)
+#define INTC_INTMUX2 			*(unsigned int*)(INTC_BASE_ADDR + 0x0108u)
+#define INTC_INTMUX3 			*(unsigned int*)(INTC_BASE_ADDR + 0x010Cu)
+
+#define INTC_AEGMUX0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0140u)
+#define INTC_AEGMUX1 			*(unsigned int*)(INTC_BASE_ADDR + 0x0144u)
+
+#define INTC_INTXSTAT 			*(unsigned int*)(INTC_BASE_ADDR + 0x0180u)
+#define INTC_INTXCLR 			*(unsigned int*)(INTC_BASE_ADDR + 0x0184u)
+#define INTC_INTDMASK 			*(unsigned int*)(INTC_BASE_ADDR + 0x0188u)
+
+#define INTC_EVTASRT 			*(unsigned int*)(INTC_BASE_ADDR + 0x01C0u)
+
 
 /**************************************************************************\
 * Field Definition Macros
