@@ -8,11 +8,15 @@ ORDERED_OBJS += \
 $(GEN_CMDS__FLAG) \
 "./utilities/xprintf.obj" \
 "./uart.obj" \
+"./timer.obj" \
 "./systemConfigurations.obj" \
 "./sdram.obj" \
 "./psc.obj" \
 "./pllc.obj" \
 "./main.obj" \
+"./intvecs.obj" \
+"./interrupt.obj" \
+"./emac.obj" \
 -l"libc.a" \
 "../C6745.cmd" \
 
@@ -128,8 +132,9 @@ c6000-evi-lib.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "c6000-evi-lib.out"
-	-$(RM) "main.pp" "pllc.pp" "psc.pp" "sdram.pp" "systemConfigurations.pp" "uart.pp" "utilities/xprintf.pp" 
-	-$(RM) "main.obj" "pllc.obj" "psc.obj" "sdram.obj" "systemConfigurations.obj" "uart.obj" "utilities/xprintf.obj" 
+	-$(RM) "emac.pp" "interrupt.pp" "main.pp" "pllc.pp" "psc.pp" "sdram.pp" "systemConfigurations.pp" "timer.pp" "uart.pp" "utilities/xprintf.pp" 
+	-$(RM) "emac.obj" "interrupt.obj" "intvecs.obj" "main.obj" "pllc.obj" "psc.obj" "sdram.obj" "systemConfigurations.obj" "timer.obj" "uart.obj" "utilities/xprintf.obj" 
+	-$(RM) "intvecs.pp" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

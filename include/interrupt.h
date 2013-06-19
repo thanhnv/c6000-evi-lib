@@ -9,6 +9,11 @@
 #define __INTERRUPT_H
 
 
+/******************************************************************************
+** 							INTERNAL TYPE DEFINITIONS
+******************************************************************************/
+typedef void (*c674xISR)(void);
+
 #define INTC_BASE_ADDR (0x01800000u)
 
 #define INTC_EVTFLAG0 			*(unsigned int*)(INTC_BASE_ADDR + 0x0000u)
@@ -3080,5 +3085,24 @@
 
 #define INTC_EVTASRT_RESETVAL (0x00000000u)
 
+extern void IntDSPINTCInit (void);
+extern void IntRegister (unsigned int cpuINT, void (*userISR)(void));
+extern void IntUnRegister (unsigned int cpuINT);
+extern void IntEventMap (unsigned int cpuINT, unsigned int sysINT);
+extern void IntEventSet (unsigned int sysINT);
+extern void IntEventClear(unsigned int sysINT);
+extern void IntEventCombineInit(int ecmINT0, int ecmINT1, int ecmINT2, int ecmINT3);
+extern void IntEventCombineAdd(unsigned int sysINT);
+extern void IntEventCombineRemove(unsigned int sysINT);
+extern void IntEventCombineRegister(unsigned int sysINT, void (*userISR)(void));
+extern void IntEnable (unsigned int cpuINT);
+extern void IntDisable (unsigned int cpuINT);
+extern void IntReset (void);
+extern void IntGlobalEnable (void);
+extern unsigned int IntGlobalDisable (void);
+extern void IntGlobalRestore (unsigned int restoreValue);
+extern void ExcGlobalEnable (void);
+extern void ExcCombineAdd(unsigned int sysINT);
+extern void ExcCombineRemove(unsigned int sysINT);
 
 #endif

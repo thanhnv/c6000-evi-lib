@@ -27,24 +27,23 @@ MEMORY
     EMIFACS3     o = 0x62000000  l = 0x02000000     /* 32MB Async Data (CS3) */              
     EMIFACS4     o = 0x64000000  l = 0x02000000     /* 32MB Async Data (CS4) */              
     EMIFACS5     o = 0x66000000  l = 0x02000000     /* 32MB Async Data (CS5) */              
-    EMIFBSDRAM   o = 0xC0000000  l = 0x10000000     /* 256MB SDRAM Data */                   
-}                                                                       
-
+    EMIFBSDRAM   o = 0xC0000000  l = 0x10000000     /* 256MB SDRAM Data */
+}
 
 SECTIONS
 {
-	UNION:
-	{
-		main.obj: load = DSPL2ROM
-		rts6740.lib	load	=DSPL2ROM
-	} run = DSPL1PRAM
+//	UNION:
+//	{
+//		main.obj: load = DSPL2ROM
+//		rts6740.lib	load	=DSPL2ROM
+//	} run = DSPL1PRAM
 	.text		   >  DSPL1PRAM
 	.text:main.obj > 0x00E00000
-	.boot >0x00E00000
-	{
+//	.boot >0x00E00000
+//	{
 //		-l rts6740.lib<boot.obj>(.text)
 		//main.obj(.text)
-	}
+//	}
 
 
     .stack         >  SHDSPL2RAM
