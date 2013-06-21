@@ -1,1 +1,0 @@
-"./utilities/xprintf.obj" "./uart.obj" "./timer.obj" "./systemConfigurations.obj" "./sdram.obj" "./psc.obj" "./pllc.obj" "./main.obj" "./intvecs.obj" "./interrupt.obj" "./emac.obj" -l"libc.a" "../C6745.cmd" 
