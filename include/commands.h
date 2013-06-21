@@ -26,4 +26,8 @@
 #define FMKT(PER_REG_FIELD, TOKEN)                                      \
     FMK(PER_REG_FIELD, PER_REG_FIELD##_##TOKEN)
 
+#define HWREG(x) (*(Uint32*)(x))
+#define ASSERT(x) if((x));\
+					else return;
+
 #endif /* COMMANDS_H_ */

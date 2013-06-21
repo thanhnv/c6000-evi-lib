@@ -16,6 +16,8 @@
 #include "include/uart.h"
 #include "utilities/debug.h"
 #include <stdlib.h>
+
+void example_timer();
 void sw_sleep(Uint32 value)
 {
 	while(value--);
@@ -24,8 +26,8 @@ void sw_sleep(Uint32 value)
 int example_sdram();
 int main()
 {
-	setup_pll(20);
-	uart_init(UART_1,57600);
+	setup_pll(25);
+	uart_init(UART_1,115200);
 #if 0
 	unsigned char * mm = malloc(100);
 	if(mm){
@@ -44,6 +46,7 @@ int main()
 		sw_sleep(100000);
 	}
 #endif
-	example_sdram();
+	//example_sdram();
+	example_timer();
 	while(1);
 }

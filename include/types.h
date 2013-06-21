@@ -17,6 +17,12 @@ typedef int Int32;
 typedef short Int16;
 typedef char Int8;
 
+#ifndef TRUE
+#define TRUE (1)
+#endif
+#ifndef FALSE
+#define FALSE (0)
+#endif
 #define STATUS_FINISHED (1)
 #define STATUS_FAILED (0)
 #endif /* TYPES_H_ */
