@@ -55,7 +55,7 @@ void example_timer()
 	enable_interrupt_timer();
 	TimerIntEnable(TMR_0_REGS, TMR_INT_TMR12_NON_CAPT_MODE);
 	TimerEnable(TMR_0_REGS, TMR_TIMER12, TMR_ENABLE_CONT);
-	while(1);
+	//while(1);
 	//TimerDisable(TMR_0_REGS, TMR_TIMER12);
 
 }

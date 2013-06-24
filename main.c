@@ -18,6 +18,8 @@
 #include <stdlib.h>
 
 void example_timer();
+void example_emac();
+
 void sw_sleep(Uint32 value)
 {
 	while(value--);
@@ -48,5 +50,6 @@ int main()
 #endif
 	//example_sdram();
 	example_timer();
+	example_emac();
 	while(1);
 }
