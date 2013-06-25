@@ -38,8 +38,10 @@ void init_emac()
 
 void example_emac()
 {
+	DBG("example_emac 1\n")
 	init_emac();
 	unsigned int id;
+	DBG("example_emac 2\n")
 	id=DM9161IDGet(MDIO_0_REGS,2);
 	DBG("0x%X\n",id)
 }

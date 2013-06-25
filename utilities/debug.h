@@ -12,6 +12,7 @@
 #define USE_DEBUG
 #ifdef USE_DEBUG
 #include "xprintf.h"
+#include <stdio.h>
 #include "../include/uart.h"
 //#define DBG(x...) xfprintf(uart1_sendchar,x);
 #define DBG(x...) xfprintf(putchar,x);
