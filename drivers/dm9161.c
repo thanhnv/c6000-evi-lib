@@ -27,7 +27,7 @@ unsigned int DM9161IDGet(unsigned int mdioBaseAddr,
     id = data << PHY_ID_SHIFT;
 
     /* read the ID2 register */
-    MDIOPhyRegRead(mdioBaseAddr, phyAddr, DM9161_PHYID1, &data);
+    MDIOPhyRegRead(mdioBaseAddr, phyAddr, DM9161_PHYID2, &data);
 
     /* update the ID2 value */
     id |= data;
@@ -56,6 +56,27 @@ unsigned int DM9161Configure(unsigned int mdioBaseAddr,
                                       unsigned short speed,
                                       unsigned short dulplexMode)
 {
+    unsigned short data;
+
+    data = DM9161_RESET;
+
+    /* Reset the phy */
+    MDIOPhyRegWrite(mdioBaseAddr, phyAddr, DM9161_BMCR, data);
+
+    /* wait till the reset bit is auto cleared */
+    while(data)
+    {
+        /* Read the reset */
+        if(MDIOPhyRegRead(mdioBaseAddr, phyAddr, DM9161_BMCR, &data) != TRUE)
+        {
+            return FALSE;
+        }
+    }
+
+    /* Set the configurations */
+    MDIOPhyRegWrite(mdioBaseAddr, phyAddr, DM9161_BMCR, (speed | dulplexMode));
+
+    return TRUE;
 
 }
 

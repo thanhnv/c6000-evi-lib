@@ -9,6 +9,8 @@
 #include "../include/uart.h"
 #include "../include/emac.h"
 #include "../include/mdio.h"
+#include "../include/commands.h"
+#include "../include/sysconfig.h"
 #include "../include/psc.h"
 #include "../include/interrupt.h"
 #include "../utilities/debug.h"
@@ -33,13 +35,16 @@ void stop_emac()
 void init_emac()
 {
 	startup_emac();
-
+	PINMUX11 |= (FMK(SYSCFG_PINMUX11_PINMUX11_7_4,SYSCFG_PINMUX11_PINMUX11_7_4_MDIO_D)|
+				FMK(SYSCFG_PINMUX11_PINMUX11_3_0,SYSCFG_PINMUX11_PINMUX11_3_0_MDIO_CLK));
 }
 
 void example_emac()
 {
 	DBG("example_emac 1\n")
 	init_emac();
+	MDIOInit(MDIO_0_REGS,125000000,12500000);
+	DM9161Configure(MDIO_0_REGS,0,1,1);
 	unsigned int id;
 	DBG("example_emac 2\n")
 	id=DM9161IDGet(MDIO_0_REGS,2);

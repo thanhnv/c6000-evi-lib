@@ -49,7 +49,7 @@ int main()
 	}
 #endif
 	//example_sdram();
-	example_timer();
+	//example_timer();
 	example_emac();
 	while(1);
 }

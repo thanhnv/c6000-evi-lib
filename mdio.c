@@ -46,24 +46,26 @@ unsigned int MDIOPhyRegRead(unsigned int baseAddr, unsigned int phyAddr,
                             unsigned int regNum, volatile unsigned short *dataPtr)
 {
     /* Wait till transaction completion if any */
+	//FDBG("")
     while(HWREG(baseAddr + MDIO_USERACCESS0) & MDIO_USERACCESS0_GO);
-
+	//FDBG("")
     HWREG(baseAddr + MDIO_USERACCESS0)
                            = (MDIO_USERACCESS0_READ | MDIO_USERACCESS0_GO
                               |((regNum & PHY_REG_MASK) << PHY_REG_SHIFT)
                               |((phyAddr & PHY_ADDR_MASK) << PHY_ADDR_SHIFT));
-
+	//FDBG("")
     /* wait for command completion */
     while(HWREG(baseAddr + MDIO_USERACCESS0) & MDIO_USERACCESS0_GO);
-
+	//FDBG("")
     /* Store the data if the read is acknowledged */
     if((HWREG(baseAddr + MDIO_USERACCESS0)) & MDIO_USERACCESS0_ACK)
     {
         *dataPtr = (unsigned short)((HWREG(baseAddr + MDIO_USERACCESS0))
                                     & PHY_DATA_MASK);
+       // FDBG("")
         return true;
     }
-
+	//FDBG("")
     return FALSE;
 }
 
