@@ -10,6 +10,7 @@
 #include <include/pllc.h>
 #include <include/sysconfig.h>
 #include <include/systemConfigurations.h>
+
 Int32 setup_pll(Uint32 multi)
 {
     int i = 0;
@@ -78,6 +79,7 @@ Int32 setup_pll(Uint32 multi)
    /*Program the RATIO field in PLLDIVx with the desired divide factors. In addition, make sure in this step you leave the PLLDIVx.DxEN bits set so clocks are still enabled (default).*/
    	PLL0_PLLDIV1 = 0x8000 | 0; /* Make PLLDIV3 as bootpacket, do it for other PLLDIVx to if required*/
     PLL0_PLLDIV3 = 0x8000 | PLLDIV3; /* Make PLLDIV3 as bootpacket, do it for other PLLDIVx to if required*/
+    PLL0_PLLDIV4 = 0x8000 | 3; /* Make PLLDIV5 as bootpacket, do it for other PLLDIVx to if required*/
     PLL0_PLLDIV5 = 0x8000 | PLLDIV5; /* Make PLLDIV5 as bootpacket, do it for other PLLDIVx to if required*/
     PLL0_PLLDIV7 = 0x8000 | PLLDIV7; /* Make PLLDIV7 as bootpacket, do it for other PLLDIVx to if required*/
 

@@ -337,6 +337,7 @@ extern "C" {
 
 /** @brief Base address of EMAC memory                                        */
 #define EMAC_DSC_CTRL_MOD_RAM           (0x01E20000u)
+#define EMAC_DSC_CTRL_MOD_REG           (0x01E22000u)
 #define EMAC_DSC_CONTROL_REG            (0x01E23000u)
 
 /** @brief Base address of ECTL memory                                        */

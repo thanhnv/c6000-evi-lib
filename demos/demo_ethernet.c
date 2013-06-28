@@ -43,11 +43,27 @@ void example_emac()
 {
 	DBG("example_emac 1\n")
 	init_emac();
-	MDIOInit(MDIO_0_REGS,125000000,12500000);
+	EMACInit(EMAC_DSC_CTRL_MOD_REG,EMAC_DSC_CONTROL_REG);
+	MDIOInit(MDIO_0_REGS,75000000,12500000);
+
 	DM9161Configure(MDIO_0_REGS,0,1,1);
+
+	//EMAC_DSC_CTRL_MOD_RAM
+
+	//EMACRMIISpeedSet(EMAC_DSC_CONTROL_REG,EMAC_RMIISPEED_100MBPS);
 	unsigned int id;
 	DBG("example_emac 2\n")
-	id=DM9161IDGet(MDIO_0_REGS,2);
+	id=DM9161IDGet(MDIO_0_REGS,0);
 	DBG("0x%X\n",id)
+	unsigned int i=0;
+	unsigned short data=0;
+	while(i<=24){
+		if(MDIOPhyRegRead(MDIO_0_REGS,0,i,&data)==TRUE){
+			DBG("%d: 0x%X\n",i,data)
+		}else{
+			DBG("FAIL %d\n",i,data)
+		}
+		i++;
+	}
 }
 

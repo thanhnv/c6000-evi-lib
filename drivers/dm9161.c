@@ -9,6 +9,7 @@
 #include "../include/mdio.h"
 #include "../include/interrupt.h"
 #include "../include/types.h"
+#include "../utilities/debug.h"
 #include "../include/commands.h"
 
 #include "dm9161.h"
@@ -18,7 +19,7 @@ unsigned int DM9161IDGet(unsigned int mdioBaseAddr,
                                   unsigned int phyAddr)
 {
     unsigned int id = 0;
-    unsigned short data;
+    unsigned short data=0;
 
     /* read the ID1 register */
     MDIOPhyRegRead(mdioBaseAddr, phyAddr, DM9161_PHYID1, &data);
@@ -64,6 +65,7 @@ unsigned int DM9161Configure(unsigned int mdioBaseAddr,
     MDIOPhyRegWrite(mdioBaseAddr, phyAddr, DM9161_BMCR, data);
 
     /* wait till the reset bit is auto cleared */
+#if 0
     while(data)
     {
         /* Read the reset */
@@ -71,8 +73,9 @@ unsigned int DM9161Configure(unsigned int mdioBaseAddr,
         {
             return FALSE;
         }
+        //FDBG("0x%X",data)
     }
-
+#endif
     /* Set the configurations */
     MDIOPhyRegWrite(mdioBaseAddr, phyAddr, DM9161_BMCR, (speed | dulplexMode));
 

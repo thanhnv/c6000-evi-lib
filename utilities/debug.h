@@ -14,9 +14,9 @@
 #include "xprintf.h"
 #include <stdio.h>
 #include "../include/uart.h"
-//#define DBG(x...) xfprintf(uart1_sendchar,x);
-#define DBG(x...) xfprintf(putchar,x);
-#define FDBG(x...) {DBG("\033[1;31m[%s:%s:%d]\033[0m ",__FILE__, __FUNCTION__,__LINE__); DBG(x);DBG("\r\n");}
+#define DBG(x...) xfprintf(uart1_sendchar,x);
+//#define DBG(x...) xfprintf(putchar,x);
+#define FDBG(x...) {DBG("[%s:%s:%d]",__FILE__, __FUNCTION__,__LINE__); DBG(x);DBG("\r\n");}
 #else
 #define DBG(x...)
 #define FDBG(x...)
