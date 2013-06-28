@@ -48,8 +48,6 @@ void example_emac()
 
 	DM9161Configure(MDIO_0_REGS,0,1,1);
 
-	//EMAC_DSC_CTRL_MOD_RAM
-
 	//EMACRMIISpeedSet(EMAC_DSC_CONTROL_REG,EMAC_RMIISPEED_100MBPS);
 	unsigned int id;
 	DBG("example_emac 2\n")
@@ -66,4 +64,3 @@ void example_emac()
 		i++;
 	}
 }
-

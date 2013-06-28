@@ -85,16 +85,16 @@ void MDIOPhyRegWrite(unsigned int baseAddr, unsigned int phyAddr,
 {
     /* Wait till transaction completion if any */
     while(HWREG(baseAddr + MDIO_USERACCESS0) & MDIO_USERACCESS0_GO);
-    FDBG("")
+    //FDBG("")
     HWREG(baseAddr + MDIO_USERACCESS0)
                                = (MDIO_USERACCESS0_WRITE | MDIO_USERACCESS0_GO
                                   |((regNum & PHY_REG_MASK) << PHY_REG_SHIFT)
                                   |((phyAddr & PHY_ADDR_MASK) << PHY_ADDR_SHIFT)
                                   | RegVal);
-    FDBG("")
+    //FDBG("")
     /* wait for command completion*/
     while(HWREG(baseAddr + MDIO_USERACCESS0) & MDIO_USERACCESS0_GO);
-    FDBG("")
+   // FDBG("")
 }
 /**
  * \brief   Reads the alive status of all PHY connected to this MDIO.

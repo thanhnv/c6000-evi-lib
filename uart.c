@@ -13,6 +13,7 @@
 #include <include/commands.h>
 #include <include/sysconfig.h>
 #include <include/systemConfigurations.h>
+void sw_sleep(Uint32);
 Int32 uart_init(Uint32 port,Uint32 baudrate)
 {
 	KICK0R = 0x83e70b13;  // Kick0 register + data (unlock)
